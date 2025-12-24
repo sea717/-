@@ -1,0 +1,3871 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>钻石狂热者 - 让人上瘾的点击游戏</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 30px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: #FFD700;
+        }
+        
+        .logo h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(to right, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+        
+        .stats {
+            display: flex;
+            gap: 30px;
+            font-size: 1.3rem;
+        }
+        
+        .stat-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stat-box i {
+            color: #FFD700;
+        }
+        
+        .diamond-count, .coins-count {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .main-game-area {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .clicker-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .clicker-title {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: #FFD700;
+            text-align: center;
+        }
+        
+        .clicker-button {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #FFD700, #FFA500);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 8px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 0 30px rgba(255, 215, 0, 0.5),
+                inset 0 0 30px rgba(255, 255, 255, 0.2);
+            transition: all 0.1s;
+            margin-bottom: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .clicker-button:active {
+            transform: scale(0.95);
+            box-shadow: 
+                0 0 20px rgba(255, 215, 0, 0.7),
+                inset 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .clicker-button i {
+            font-size: 8rem;
+            color: white;
+            filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.3));
+        }
+        
+        .clicker-stats {
+            display: flex;
+            gap: 30px;
+            text-align: center;
+        }
+        
+        .click-stat {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px 25px;
+            border-radius: 15px;
+            min-width: 150px;
+        }
+        
+        .click-stat h3 {
+            color: #aaa;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        
+        .click-stat p {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #FFD700;
+        }
+        
+        .shop-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            color: #FFD700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .upgrade-item, .auto-clicker-item, .skin-item, .boost-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        
+        .upgrade-item:hover, .auto-clicker-item:hover, .skin-item:hover, .boost-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+        
+        .upgrade-info h4, .auto-clicker-info h4, .skin-info h4, .boost-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .upgrade-info p, .auto-clicker-info p, .skin-info p, .boost-info p {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .upgrade-price, .auto-clicker-price, .skin-price, .boost-price {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #FFD700;
+        }
+        
+        .buy-btn {
+            background: linear-gradient(to right, #4CAF50, #2E7D32);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .buy-btn:hover:not(:disabled) {
+            background: linear-gradient(to right, #66BB6A, #388E3C);
+            transform: translateY(-2px);
+        }
+        
+        .buy-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            background: rgba(255, 215, 0, 0.2);
+            color: #FFD700;
+        }
+        
+        .tab-content {
+            display: none;
+            flex-grow: 1;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .recharge-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-top: 30px;
+        }
+        
+        .recharge-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .recharge-option {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .recharge-option:hover {
+            border-color: #FFD700;
+            background: rgba(255, 215, 0, 0.05);
+        }
+        
+        .recharge-option.selected {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+        
+        .recharge-diamond {
+            font-size: 2rem;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+        
+        .recharge-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .recharge-btn {
+            background: linear-gradient(to right, #FF5722, #E64A19);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 30px;
+            transition: all 0.3s;
+        }
+        
+        .recharge-btn:hover {
+            background: linear-gradient(to right, #FF7043, #F4511E);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .recharge-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .recharge-modal-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            border: 2px solid #FFD700;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+        }
+        
+        .recharge-modal h2 {
+            color: #FFD700;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        .qrcode-container {
+            width: 250px;
+            height: 250px;
+            background: #fff;
+            margin: 20px auto;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            font-weight: bold;
+            border: 2px solid #FFD700;
+            padding: 10px;
+        }
+        
+        .qrcode-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .payment-status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+        }
+        
+        .payment-status.success {
+            display: block;
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4CAF50;
+            color: #4CAF50;
+        }
+        
+        .payment-status.pending {
+            display: block;
+            background: rgba(255, 193, 7, 0.2);
+            border: 1px solid #FFC107;
+            color: #FFC107;
+        }
+        
+        .payment-status.failed {
+            display: block;
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #F44336;
+            color: #F44336;
+        }
+        
+        .close-modal {
+            background: #FF5722;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .close-modal:hover {
+            background: #FF7043;
+            transform: translateY(-2px);
+        }
+        
+        .achievements {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .achievement {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .achievement-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(145deg, #FFD700, #FFA500);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+        
+        .achievement-info h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .achievement-info p {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .achievement-progress {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #4CAF50, #8BC34A);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .achievement.unlocked .achievement-icon {
+            background: linear-gradient(145deg, #4CAF50, #2E7D32);
+        }
+        
+        .skin-preview {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .skin-preview i {
+            font-size: 1.8rem;
+        }
+        
+        .owned-tag {
+            background: #4CAF50;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+        
+        .equip-btn {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .equip-btn:hover:not(:disabled) {
+            background: #42A5F5;
+        }
+        
+        .equip-btn.equipped {
+            background: #4CAF50;
+        }
+        
+        .floating-diamond {
+            position: absolute;
+            font-size: 1.5rem;
+            color: #FFD700;
+            pointer-events: none;
+            animation: floatUp 1s ease-out forwards;
+        }
+        
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(0.5);
+            }
+        }
+        
+        /* 转盘样式 */
+        .wheel-container {
+            margin-top: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .wheel-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .wheel {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            margin: 0 auto 30px;
+        }
+        
+        .wheel-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            transform: rotate(0deg);
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        }
+        
+        .wheel-segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: 100% 100%;
+            left: 0;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .wheel-center {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: #FFD700;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+        }
+        
+        .wheel-spin-btn {
+            background: linear-gradient(to right, #9C27B0, #673AB7);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .wheel-spin-btn:hover:not(:disabled) {
+            background: linear-gradient(to right, #AB47BC, #7E57C2);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .wheel-spin-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        
+        .wheel-result {
+            margin-top: 20px;
+            font-size: 1.3rem;
+            color: #FFD700;
+            text-align: center;
+            min-height: 40px;
+        }
+        
+        /* 任务系统 */
+        .quests-container {
+            margin-top: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .quest-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .quest-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .quest-info p {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .quest-reward {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #FFD700;
+        }
+        
+        .quest-claim-btn {
+            background: linear-gradient(to right, #2196F3, #1976D2);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .quest-claim-btn:hover:not(:disabled) {
+            background: linear-gradient(to right, #42A5F5, #2196F3);
+            transform: translateY(-2px);
+        }
+        
+        .quest-claim-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+        
+        /* 技能系统 */
+        .skills-container {
+            margin-top: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .skill-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .skill-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .skill-info p {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .skill-cooldown {
+            color: #FF5722;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .skill-use-btn {
+            background: linear-gradient(to right, #FF9800, #F57C00);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .skill-use-btn:hover:not(:disabled) {
+            background: linear-gradient(to right, #FFB74D, #FF9800);
+            transform: translateY(-2px);
+        }
+        
+        .skill-use-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+        
+        /* 排行榜 */
+        .leaderboard-container {
+            margin-top: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .leaderboard-table th {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            color: #FFD700;
+        }
+        
+        .leaderboard-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .leaderboard-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .rank-1 {
+            color: #FFD700;
+            font-weight: bold;
+        }
+        
+        .rank-2 {
+            color: #C0C0C0;
+            font-weight: bold;
+        }
+        
+        .rank-3 {
+            color: #CD7F32;
+            font-weight: bold;
+        }
+        
+        /* 新增样式 */
+        
+        /* 离线收益提示 */
+        .offline-earnings {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+            animation: slideDown 0.5s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* 进度条动画 */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+        }
+
+        .clicker-button.pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* 成就解锁特效 */
+        .achievement.unlocked {
+            animation: achievementUnlock 0.5s ease;
+        }
+
+        @keyframes achievementUnlock {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* 数字增长动画 */
+        .stat-increasing {
+            animation: numberIncrease 0.3s ease;
+            color: #4CAF50;
+        }
+
+        @keyframes numberIncrease {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* 加载遮罩 */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            flex-direction: column;
+            color: white;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #FFD700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 设置菜单 */
+        .settings-container {
+            margin-top: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #4CAF50;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* 统计信息面板 */
+        .stats-panel {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            color: #FFD700;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        /* 新手引导 */
+        .tutorial-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tutorial-box {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            border: 2px solid #FFD700;
+            position: relative;
+        }
+
+        .tutorial-step {
+            display: none;
+        }
+
+        .tutorial-step.active {
+            display: block;
+        }
+
+        .tutorial-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        /* 成就特效 */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #FFD700;
+            opacity: 0;
+            z-index: 9998;
+            pointer-events: none;
+        }
+
+        /* 大数字动画 */
+        .big-number {
+            font-size: 3rem;
+            color: #FFD700;
+            text-align: center;
+            animation: bigNumber 2s ease-out;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9997;
+            pointer-events: none;
+        }
+
+        @keyframes bigNumber {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            50% { transform: translate(-50%, -100%) scale(1.5); opacity: 1; }
+            100% { transform: translate(-50%, -150%) scale(1); opacity: 0; }
+        }
+
+        /* 按钮点击特效 */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* 等级进度条 */
+        .level-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 15px;
+        }
+
+        .level-progress {
+            flex-grow: 1;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .level-fill {
+            height: 100%;
+            background: linear-gradient(to right, #4CAF50, #8BC34A);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* 存储提示 */
+        .save-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #4CAF50;
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: none;
+            z-index: 1000;
+            animation: fadeInOut 2s ease;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; transform: translateY(10px); }
+            10%, 90% { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 900px) {
+            .main-game-area {
+                grid-template-columns: 1fr;
+            }
+            
+            .clicker-button {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .clicker-button i {
+                font-size: 6rem;
+            }
+            
+            .wheel {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .stats-panel {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .stats {
+                width: 100%;
+                justify-content: space-around;
+            }
+            
+            .clicker-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .recharge-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .wheel {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .wheel-center {
+                width: 60px;
+                height: 60px;
+                font-size: 1.2rem;
+            }
+            
+            .stats-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 加载遮罩 -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <h2>加载游戏中...</h2>
+        <p id="loadingProgress">0%</p>
+    </div>
+
+    <!-- 新手引导 -->
+    <div class="tutorial-overlay" id="tutorialOverlay">
+        <div class="tutorial-box">
+            <div class="tutorial-step active" id="tutorialStep1">
+                <h2 style="color: #FFD700;">欢迎来到钻石狂热者！</h2>
+                <p>这是一个点击游戏，你需要不断点击获取钻石，然后用钻石购买升级和自动点击器。</p>
+                <div class="tutorial-navigation">
+                    <button onclick="nextTutorialStep()" class="buy-btn">下一步</button>
+                </div>
+            </div>
+            <div class="tutorial-step" id="tutorialStep2">
+                <h2 style="color: #FFD700;">游戏目标</h2>
+                <p>1. 点击中间的钻石获得钻石</p>
+                <p>2. 用钻石购买升级来提高每次点击的收益</p>
+                <p>3. 购买自动点击器让钻石自动增长</p>
+                <p>4. 解锁皮肤、完成任务、获得成就</p>
+                <div class="tutorial-navigation">
+                    <button onclick="prevTutorialStep()" class="buy-btn">上一步</button>
+                    <button onclick="nextTutorialStep()" class="buy-btn">下一步</button>
+                </div>
+            </div>
+            <div class="tutorial-step" id="tutorialStep3">
+                <h2 style="color: #FFD700;">重要功能</h2>
+                <p>• <strong>转盘抽奖</strong>: 每天有免费抽奖机会</p>
+                <p>• <strong>每日任务</strong>: 完成任务获得额外奖励</p>
+                <p>• <strong>技能系统</strong>: 使用技能获得额外收益</p>
+                <p>• <strong>成就系统</strong>: 达成目标获得丰厚奖励</p>
+                <div class="tutorial-navigation">
+                    <button onclick="prevTutorialStep()" class="buy-btn">上一步</button>
+                    <button onclick="completeTutorial()" class="buy-btn">开始游戏</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 离线收益提示 -->
+    <div class="offline-earnings" id="offlineEarnings" style="display: none;">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div>
+                <h3><i class="fas fa-clock"></i> 离线收益</h3>
+                <p id="offlineTime">离线时间: 0小时0分钟</p>
+                <p id="offlineReward">获得钻石: 0</p>
+            </div>
+            <button class="buy-btn" onclick="claimOfflineEarnings()">领取</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-gem"></i>
+                <h1>钻石狂热者</h1>
+            </div>
+            <div class="stats">
+                <div class="stat-box">
+                    <i class="fas fa-gem"></i>
+                    <div>
+                        <div>钻石</div>
+                        <div class="diamond-count" id="diamondCount">0</div>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <i class="fas fa-coins"></i>
+                    <div>
+                        <div>每秒收益</div>
+                        <div class="coins-count" id="perSecond">0</div>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <i class="fas fa-level-up-alt"></i>
+                    <div>
+                        <div>等级</div>
+                        <div class="coins-count" id="playerLevel">1</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- 等级进度条 -->
+        <div class="level-container">
+            <span>等级 <span id="currentLevel">1</span></span>
+            <div class="level-progress">
+                <div class="level-fill" id="levelFill" style="width: 0%;"></div>
+            </div>
+            <span>等级 <span id="nextLevel">2</span></span>
+        </div>
+        
+        <div class="main-game-area">
+            <div class="clicker-section">
+                <h2 class="clicker-title">点击获取钻石！</h2>
+                <div class="clicker-button" id="clickerButton">
+                    <i class="fas fa-gem" id="mainGem"></i>
+                </div>
+                <div class="clicker-stats">
+                    <div class="click-stat">
+                        <h3>每次点击</h3>
+                        <p id="clickValue">1</p>
+                    </div>
+                    <div class="click-stat">
+                        <h3>自动点击器</h3>
+                        <p id="autoClickerCount">0</p>
+                    </div>
+                    <div class="click-stat">
+                        <h3>总点击次数</h3>
+                        <p id="totalClicks">0</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="shop-section">
+                <div class="tabs">
+                    <div class="tab active" data-tab="upgrades">升级</div>
+                    <div class="tab" data-tab="auto-clickers">自动点击器</div>
+                    <div class="tab" data-tab="skins">皮肤</div>
+                    <div class="tab" data-tab="boosts">增益</div>
+                </div>
+                
+                <div class="tab-content active" id="upgrades">
+                    <h3 class="section-title"><i class="fas fa-arrow-up"></i> 点击升级</h3>
+                    <div id="upgradesList">
+                        <!-- 升级项将通过JS生成 -->
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="auto-clickers">
+                    <h3 class="section-title"><i class="fas fa-robot"></i> 自动点击器</h3>
+                    <div id="autoClickersList">
+                        <!-- 自动点击器将通过JS生成 -->
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="skins">
+                    <h3 class="section-title"><i class="fas fa-palette"></i> 皮肤商店</h3>
+                    <div id="skinsList">
+                        <!-- 皮肤将通过JS生成 -->
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="boosts">
+                    <h3 class="section-title"><i class="fas fa-bolt"></i> 增益效果</h3>
+                    <div id="boostsList">
+                        <!-- 增益将通过JS生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 统计信息面板 -->
+        <div class="stats-panel" id="statsPanel">
+            <div class="stat-item">
+                <div>总游戏时间</div>
+                <div class="stat-value" id="totalPlayTime">0小时</div>
+            </div>
+            <div class="stat-item">
+                <div>点击效率</div>
+                <div class="stat-value" id="clickEfficiency">0/秒</div>
+            </div>
+            <div class="stat-item">
+                <div>升级总数</div>
+                <div class="stat-value" id="totalUpgrades">0</div>
+            </div>
+            <div class="stat-item">
+                <div>皮肤总数</div>
+                <div class="stat-value" id="totalSkins">1</div>
+            </div>
+        </div>
+        
+        <!-- 转盘抽奖 -->
+        <div class="wheel-container">
+            <h2 class="section-title"><i class="fas fa-sync-alt"></i> 幸运大转盘</h2>
+            <div class="wheel-wrapper">
+                <div class="wheel">
+                    <div class="wheel-circle" id="wheelCircle">
+                        <!-- 转盘扇区将通过JS生成 -->
+                    </div>
+                    <div class="wheel-center" id="spinWheel">
+                        <i class="fas fa-redo"></i>
+                    </div>
+                </div>
+                <div class="wheel-result" id="wheelResult">
+                    每次抽奖消耗 500 钻石，点击转盘中心开始
+                </div>
+                <button class="wheel-spin-btn" id="wheelSpinBtn" disabled>
+                    免费抽奖剩余: <span id="freeSpins">0</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 任务系统 -->
+        <div class="quests-container">
+            <h2 class="section-title"><i class="fas fa-tasks"></i> 每日任务</h2>
+            <div id="questsList">
+                <!-- 任务将通过JS生成 -->
+            </div>
+        </div>
+        
+        <!-- 技能系统 -->
+        <div class="skills-container">
+            <h2 class="section-title"><i class="fas fa-magic"></i> 特殊技能</h2>
+            <div id="skillsList">
+                <!-- 技能将通过JS生成 -->
+            </div>
+        </div>
+        
+        <!-- 设置菜单 -->
+        <div class="settings-container">
+            <h2 class="section-title"><i class="fas fa-cog"></i> 游戏设置</h2>
+            <div class="setting-item">
+                <div>
+                    <h4>音效</h4>
+                    <p>开启或关闭游戏音效</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="soundToggle" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <div>
+                    <h4>动画效果</h4>
+                    <p>开启或关闭视觉特效</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="animationToggle" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <div>
+                    <h4>离线收益</h4>
+                    <p>离线时自动获取收益</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="offlineEarningsToggle" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <div>
+                    <h4>自动保存</h4>
+                    <p>自动保存游戏进度</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="autoSaveToggle" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+                <button class="buy-btn" onclick="exportSave()">
+                    <i class="fas fa-download"></i> 导出存档
+                </button>
+                <button class="buy-btn" onclick="importSave()">
+                    <i class="fas fa-upload"></i> 导入存档
+                </button>
+                <button class="buy-btn" style="background: #F44336;" onclick="resetGame()">
+                    <i class="fas fa-redo"></i> 重置游戏
+                </button>
+            </div>
+        </div>
+        
+        <!-- 充值部分 -->
+        <div class="recharge-section">
+            <h2 class="section-title"><i class="fas fa-shopping-cart"></i> 钻石充值</h2>
+            <p style="margin-bottom: 20px; color: #aaa;">1元 = 10,000钻石，购买皮肤和加速游戏进度</p>
+            
+            <div class="recharge-options">
+                <div class="recharge-option" data-amount="10000" data-price="1">
+                    <div class="recharge-diamond">10,000 💎</div>
+                    <div class="recharge-price">￥1</div>
+                    <div style="color: #aaa; font-size: 0.9rem;">新手推荐</div>
+                </div>
+                <div class="recharge-option selected" data-amount="50000" data-price="5">
+                    <div class="recharge-diamond">50,000 💎</div>
+                    <div class="recharge-price">￥5</div>
+                    <div style="color: #aaa; font-size: 0.9rem;">超值优惠</div>
+                </div>
+                <div class="recharge-option" data-amount="150000" data-price="15">
+                    <div class="recharge-diamond">150,000 💎</div>
+                    <div class="recharge-price">￥15</div>
+                    <div style="color: #aaa; font-size: 0.9rem;">额外赠送 20,000 💎</div>
+                </div>
+                <div class="recharge-option" data-amount="300000" data-price="30">
+                    <div class="recharge-diamond">300,000 💎</div>
+                    <div class="recharge-price">￥30</div>
+                    <div style="color: #aaa; font-size: 0.9rem;">额外赠送 50,000 💎</div>
+                </div>
+                <div class="recharge-option" data-amount="1000000" data-price="100">
+                    <div class="recharge-diamond">1,000,000 💎</div>
+                    <div class="recharge-price">￥100</div>
+                    <div style="color: #aaa; font-size: 0.9rem;">VIP特惠 + 200,000 💎</div>
+                </div>
+            </div>
+            
+            <button class="recharge-btn" id="rechargeBtn">
+                <i class="fas fa-bolt"></i> 立即充值
+            </button>
+        </div>
+        
+        <!-- 排行榜 -->
+        <div class="leaderboard-container">
+            <h2 class="section-title"><i class="fas fa-crown"></i> 排行榜</h2>
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>排名</th>
+                        <th>玩家</th>
+                        <th>钻石总数</th>
+                        <th>点击次数</th>
+                        <th>等级</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboardBody">
+                    <!-- 排行榜数据将通过JS生成 -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 成就系统 -->
+        <div style="margin-top: 40px;">
+            <h2 class="section-title"><i class="fas fa-trophy"></i> 成就系统</h2>
+            <div class="achievements" id="achievementsList">
+                <!-- 成就将通过JS生成 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 充值模态框 -->
+    <div class="recharge-modal" id="rechargeModal">
+        <div class="recharge-modal-content">
+            <h2>微信支付</h2>
+            <p>请使用微信扫描下方二维码完成支付</p>
+            <p style="margin-bottom: 20px; color: #FFD700; font-size: 1.2rem;" id="rechargeAmountText">充值金额：￥5，获得50,000钻石</p>
+            
+            <!-- 您的微信收款码 -->
+            <div class="qrcode-container">
+                <img src="IMG_8993.jpeg" alt="微信支付二维码" onerror="this.onerror=null; this.innerHTML='<h3>支付二维码</h3><p>请扫码支付</p>'; this.style.display=\'flex\'; this.style.flexDirection=\'column\'; this.style.alignItems=\'center\'; this.style.justifyContent=\'center\';">
+            </div>
+            
+            <p style="margin-top: 20px; color: #aaa; font-size: 0.9rem;">
+                支付完成后，请等待系统验证<br>
+                <strong>请勿关闭此窗口，支付成功后钻石将自动到账</strong>
+            </p>
+            
+            <div class="payment-status" id="paymentStatus">
+                <!-- 支付状态信息 -->
+            </div>
+            
+            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 30px; flex-wrap: wrap;">
+                <button class="close-modal" id="checkPayment">检查支付状态</button>
+                <button class="close-modal" id="cancelRecharge">取消支付</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 存储提示 -->
+    <div class="save-indicator" id="saveIndicator">
+        <i class="fas fa-save"></i> 游戏已保存
+    </div>
+    
+    <script>
+        // ============================================
+        // 游戏配置
+        // ============================================
+        const GAME_CONFIG = {
+            version: '1.2.0',
+            maxOfflineHours: 24,
+            autoSaveInterval: 30000, // 30秒
+            offlineMultiplier: 0.5, // 离线收益为在线收益的50%
+            tutorialEnabled: true,
+            soundEnabled: true,
+            animationEnabled: true
+        };
+
+        // ============================================
+        // 游戏状态
+        // ============================================
+        const gameState = {
+            diamonds: 0,
+            perClick: 1,
+            totalClicks: 0,
+            perSecond: 0,
+            totalAutoClickers: 0,
+            autoClickers: [], // 存储每个自动点击器的状态
+            upgrades: [],
+            skins: [],
+            achievements: [],
+            boosts: [],
+            skills: [],
+            quests: [],
+            selectedSkin: 'default',
+            selectedRechargeOption: { amount: 50000, price: 5 },
+            pendingPayment: null,
+            freeSpins: 3,
+            wheelSpinning: false,
+            playerLevel: 1,
+            playerXP: 0,
+            playerName: '钻石玩家',
+            lastLoginDate: new Date().toDateString(),
+            totalPlayTime: 0, // 总游戏时间（秒）
+            lastSaveTime: Date.now(),
+            settings: {
+                sound: true,
+                animation: true,
+                offlineEarnings: true,
+                autoSave: true
+            },
+            tutorialCompleted: false,
+            gameVersion: GAME_CONFIG.version,
+            statistics: {
+                highestDiamonds: 0,
+                highestPerSecond: 0,
+                totalDiamondsEarned: 0,
+                totalUpgradesBought: 0,
+                totalSkinsUnlocked: 1,
+                totalAchievements: 0
+            }
+        };
+
+        // ============================================
+        // 游戏数据
+        // ============================================
+        
+        // 升级项数据
+        const upgradesData = [
+            { id: 1, name: "强化手指", description: "每次点击+1钻石", price: 50, increase: 1, owned: 0, max: 20 },
+            { id: 2, name: "黄金手套", description: "每次点击+2钻石", price: 200, increase: 2, owned: 0, max: 10 },
+            { id: 3, name: "钻石镐", description: "每次点击+5钻石", price: 1000, increase: 5, owned: 0, max: 5 },
+            { id: 4, name: "幸运宝石", description: "有10%几率获得10倍钻石", price: 5000, increase: 0, owned: 0, max: 1 },
+            { id: 5, name: "点击风暴", description: "每次点击有几率触发连续点击", price: 20000, increase: 0, owned: 0, max: 1 },
+            { id: 6, name: "量子手指", description: "每次点击+10钻石", price: 50000, increase: 10, owned: 0, max: 3 },
+            { id: 7, name: "宇宙之心", description: "每次点击+25钻石", price: 200000, increase: 25, owned: 0, max: 2 },
+            { id: 8, name: "无限之力", description: "每次点击+100钻石", price: 1000000, increase: 100, owned: 0, max: 1 }
+        ];
+
+        // 自动点击器数据
+        const autoClickersData = [
+            { 
+                id: 1, 
+                name: "初级机器人", 
+                description: "每秒自动点击1次", 
+                basePrice: 100, 
+                clicksPerSecond: 1, 
+                owned: 0 
+            },
+            { 
+                id: 2, 
+                name: "中级机器人", 
+                description: "每秒自动点击3次", 
+                basePrice: 500, 
+                clicksPerSecond: 3, 
+                owned: 0 
+            },
+            { 
+                id: 3, 
+                name: "高级机器人", 
+                description: "每秒自动点击10次", 
+                basePrice: 2000, 
+                clicksPerSecond: 10, 
+                owned: 0 
+            },
+            { 
+                id: 4, 
+                name: "钻石机器人", 
+                description: "每秒自动点击25次", 
+                basePrice: 10000, 
+                clicksPerSecond: 25, 
+                owned: 0 
+            },
+            { 
+                id: 5, 
+                name: "至尊机器人", 
+                description: "每秒自动点击50次", 
+                basePrice: 50000, 
+                clicksPerSecond: 50, 
+                owned: 0 
+            },
+            { 
+                id: 6, 
+                name: "量子机器人", 
+                description: "每秒自动点击100次", 
+                basePrice: 200000, 
+                clicksPerSecond: 100, 
+                owned: 0 
+            },
+            { 
+                id: 7, 
+                name: "宇宙机器人", 
+                description: "每秒自动点击250次", 
+                basePrice: 1000000, 
+                clicksPerSecond: 250, 
+                owned: 0 
+            }
+        ];
+
+        // 皮肤数据
+        const skinsData = [
+            { id: 1, name: "默认皮肤", description: "基础钻石外观", price: 0, icon: "fas fa-gem", color1: "#FFD700", color2: "#FFA500", owned: true, equipped: true },
+            { id: 2, name: "红宝石", description: "稀有红色宝石", price: 5000, icon: "fas fa-gem", color1: "#FF4081", color2: "#D81B60", owned: false, equipped: false },
+            { id: 3, name: "蓝宝石", description: "深海蓝色宝石", price: 8000, icon: "fas fa-gem", color1: "#2979FF", color2: "#2962FF", owned: false, equipped: false },
+            { id: 4, name: "翡翠", description: "翠绿色宝石", price: 12000, icon: "fas fa-gem", color1: "#00E676", color2: "#00C853", owned: false, equipped: false },
+            { id: 5, name: "紫水晶", description: "神秘紫色宝石", price: 15000, icon: "fas fa-gem", color1: "#7C4DFF", color2: "#651FFF", owned: false, equipped: false },
+            { id: 6, name: "黑钻石", description: "稀有黑色钻石", price: 30000, icon: "fas fa-gem", color1: "#455A64", color2: "#263238", owned: false, equipped: false },
+            { id: 7, name: "彩虹钻石", description: "七彩炫光钻石", price: 50000, icon: "fas fa-gem", color1: "#FF4081", color2: "#2979FF", owned: false, equipped: false },
+            { id: 8, name: "星空宝石", description: "星空特效宝石", price: 80000, icon: "fas fa-star", color1: "#311B92", color2: "#1A237E", owned: false, equipped: false },
+            { id: 9, name: "火焰宝石", description: "燃烧的火焰宝石", price: 100000, icon: "fas fa-fire", color1: "#FF5722", color2: "#D84315", owned: false, equipped: false },
+            { id: 10, name: "冰霜宝石", description: "寒冷的冰霜宝石", price: 100000, icon: "fas fa-snowflake", color1: "#00BCD4", color2: "#0097A7", owned: false, equipped: false },
+            { id: 11, name: "闪电宝石", description: "闪电特效宝石", price: 150000, icon: "fas fa-bolt", color1: "#FFEB3B", color2: "#FDD835", owned: false, equipped: false },
+            { id: 12, name: "龙晶宝石", description: "传说中的龙晶", price: 200000, icon: "fas fa-dragon", color1: "#9C27B0", color2: "#7B1FA2", owned: false, equipped: false },
+            { id: 13, name: "天使之泪", description: "神圣的天使之泪", price: 250000, icon: "fas fa-feather-alt", color1: "#E1F5FE", color2: "#B3E5FC", owned: false, equipped: false },
+            { id: 14, name: "恶魔之心", description: "邪恶的恶魔之心", price: 250000, icon: "fas fa-skull-crossbones", color1: "#B71C1C", color2: "#880E4F", owned: false, equipped: false },
+            { id: 15, name: "时间宝石", description: "控制时间的宝石", price: 300000, icon: "fas fa-clock", color1: "#004D40", color2: "#00251A", owned: false, equipped: false },
+            { id: 16, name: "无限宝石", description: "宇宙无限宝石", price: 500000, icon: "fas fa-infinity", color1: "#6A1B9A", color2: "#4A148C", owned: false, equipped: false },
+            { id: 17, name: "创世宝石", description: "创世神的宝石", price: 1000000, icon: "fas fa-globe-americas", color1: "#1A237E", color2: "#0D47A1", owned: false, equipped: false },
+            { id: 18, name: "节日限定", description: "节日特别限定版", price: 0, icon: "fas fa-gift", color1: "#FF1744", color2: "#D50000", owned: false, equipped: false, special: true },
+            { id: 19, name: "VIP专属", description: "VIP玩家专属皮肤", price: 0, icon: "fas fa-crown", color1: "#FFD700", color2: "#FFAB00", owned: false, equipped: false, special: true },
+            { id: 20, name: "开发者版", description: "开发者特别版本", price: 0, icon: "fas fa-code", color1: "#00C853", color2: "#00E676", owned: false, equipped: false, special: true }
+        ];
+
+        // 增益效果数据
+        const boostsData = [
+            { id: 1, name: "2倍收益", description: "30分钟内点击收益翻倍", price: 5000, duration: 1800, multiplier: 2, active: false, endTime: 0 },
+            { id: 2, name: "3倍收益", description: "15分钟内点击收益3倍", price: 10000, duration: 900, multiplier: 3, active: false, endTime: 0 },
+            { id: 3, name: "自动点击器加速", description: "60分钟内自动点击器速度翻倍", price: 15000, duration: 3600, multiplier: 2, active: false, endTime: 0 },
+            { id: 4, name: "无限点击", description: "5分钟内点击无冷却", price: 20000, duration: 300, multiplier: 1, active: false, endTime: 0 },
+            { id: 5, name: "钻石雨", description: "10分钟内每秒额外获得100钻石", price: 50000, duration: 600, multiplier: 1, active: false, endTime: 0 }
+        ];
+
+        // 技能数据
+        const skillsData = [
+            { id: 1, name: "钻石风暴", description: "立即获得1000钻石", price: 0, cooldown: 300, lastUsed: 0, type: "instant" },
+            { id: 2, name: "时间加速", description: "自动点击器速度提高5倍，持续30秒", price: 0, cooldown: 600, lastUsed: 0, type: "boost" },
+            { id: 3, name: "暴击点击", description: "下一次点击获得100倍收益", price: 0, cooldown: 180, lastUsed: 0, type: "nextClick" },
+            { id: 4, name: "召唤机器人", description: "立即获得一个免费的高级机器人", price: 0, cooldown: 1800, lastUsed: 0, type: "instant" },
+            { id: 5, name: "幸运时刻", description: "60秒内所有收益增加50%", price: 0, cooldown: 1200, lastUsed: 0, type: "boost" }
+        ];
+
+        // 任务数据
+        const questsData = [
+            { id: 1, name: "首次点击", description: "点击主按钮10次", goal: 10, progress: 0, reward: 100, completed: false, claimed: false },
+            { id: 2, name: "钻石收集者", description: "收集1000钻石", goal: 1000, progress: 0, reward: 500, completed: false, claimed: false },
+            { id: 3, name: "升级大师", description: "购买3次升级", goal: 3, progress: 0, reward: 1000, completed: false, claimed: false },
+            { id: 4, name: "自动化工", description: "拥有5个自动点击器", goal: 5, progress: 0, reward: 2000, completed: false, claimed: false },
+            { id: 5, name: "皮肤收藏家", description: "解锁3个皮肤", goal: 3, progress: 0, reward: 5000, completed: false, claimed: false },
+            { id: 6, name: "百万富翁", description: "拥有1000000钻石", goal: 1000000, progress: 0, reward: 10000, completed: false, claimed: false },
+            { id: 7, name: "点击狂人", description: "点击1000次", goal: 1000, progress: 0, reward: 5000, completed: false, claimed: false },
+            { id: 8, name: "转盘高手", description: "使用转盘5次", goal: 5, progress: 0, reward: 3000, completed: false, claimed: false }
+        ];
+
+        // 成就数据
+        const achievementsData = [
+            { id: 1, name: "初次点击", description: "点击主按钮1次", goal: 1, progress: 0, unlocked: false, reward: 100 },
+            { id: 2, name: "点击新手", description: "点击主按钮100次", goal: 100, progress: 0, unlocked: false, reward: 500 },
+            { id: 3, name: "点击达人", description: "点击主按钮1000次", goal: 1000, progress: 0, unlocked: false, reward: 2000 },
+            { id: 4, name: "点击大师", description: "点击主按钮10000次", goal: 10000, progress: 0, unlocked: false, reward: 10000 },
+            { id: 5, name: "钻石收藏家", description: "获得1000钻石", goal: 1000, progress: 0, unlocked: false, reward: 1000 },
+            { id: 6, name: "钻石大亨", description: "获得10000钻石", goal: 10000, progress: 0, unlocked: false, reward: 5000 },
+            { id: 7, name: "钻石之王", description: "获得100000钻石", goal: 100000, progress: 0, unlocked: false, reward: 20000 },
+            { id: 8, name: "自动化开始", description: "购买第一个自动点击器", goal: 1, progress: 0, unlocked: false, reward: 500 },
+            { id: 9, name: "自动化专家", description: "拥有10个自动点击器", goal: 10, progress: 0, unlocked: false, reward: 5000 },
+            { id: 10, name: "皮肤收藏家", description: "解锁第一个皮肤", goal: 1, progress: 0, unlocked: false, reward: 1000 },
+            { id: 11, name: "皮肤大师", description: "解锁10个皮肤", goal: 10, progress: 0, unlocked: false, reward: 20000 },
+            { id: 12, name: "升级大师", description: "购买5次升级", goal: 5, progress: 0, unlocked: false, reward: 2000 },
+            { id: 13, name: "升级宗师", description: "购买20次升级", goal: 20, progress: 0, unlocked: false, reward: 10000 },
+            { id: 14, name: "转盘爱好者", description: "使用转盘10次", goal: 10, progress: 0, unlocked: false, reward: 5000 },
+            { id: 15, name: "技能达人", description: "使用所有技能各1次", goal: 5, progress: 0, unlocked: false, reward: 10000 },
+            { id: 16, name: "任务完成者", description: "完成所有每日任务", goal: 8, progress: 0, unlocked: false, reward: 15000 },
+            { id: 17, name: "VIP玩家", description: "充值任意金额", goal: 1, progress: 0, unlocked: false, reward: 5000 },
+            { id: 18, name: "大客户", description: "累计充值100元", goal: 100, progress: 0, unlocked: false, reward: 50000 },
+            { id: 19, name: "游戏之神", description: "达到100级", goal: 100, progress: 0, unlocked: false, reward: 100000 },
+            { id: 20, name: "终极收藏家", description: "解锁所有皮肤", goal: 20, progress: 0, unlocked: false, reward: 50000 }
+        ];
+
+        // 转盘奖品
+        const wheelPrizes = [
+            { name: "100钻石", value: 100, color: "#FFD700", probability: 30 },
+            { name: "500钻石", value: 500, color: "#FF9800", probability: 20 },
+            { name: "1000钻石", value: 1000, color: "#FF5722", probability: 15 },
+            { name: "5000钻石", value: 5000, color: "#9C27B0", probability: 10 },
+            { name: "免费升级", value: "upgrade", color: "#4CAF50", probability: 10 },
+            { name: "免费皮肤", value: "skin", color: "#2196F3", probability: 8 },
+            { name: "10000钻石", value: 10000, color: "#F44336", probability: 5 },
+            { name: "神秘大奖", value: "mystery", color: "#673AB7", probability: 2 }
+        ];
+
+        // 排行榜数据
+        const leaderboardData = [
+            { rank: 1, name: "钻石王者", diamonds: 1250000, clicks: 58234, level: 87 },
+            { rank: 2, name: "宝石收藏家", diamonds: 987000, clicks: 45210, level: 76 },
+            { rank: 3, name: "点击狂魔", diamonds: 856000, clicks: 102345, level: 72 },
+            { rank: 4, name: "皮肤大师", diamonds: 723000, clicks: 38976, level: 68 },
+            { rank: 5, name: "自动化工", diamonds: 654000, clicks: 28765, level: 65 },
+            { rank: 6, name: "新手玩家", diamonds: 12300, clicks: 542, level: 12 },
+            { rank: 7, name: "休闲玩家", diamonds: 8900, clicks: 321, level: 9 },
+            { rank: 8, name: "幸运儿", diamonds: 5600, clicks: 198, level: 7 },
+            { rank: 9, name: "探索者", diamonds: 2300, clicks: 87, level: 4 },
+            { rank: 10, name: "挑战者", diamonds: 1000, clicks: 45, level: 2 }
+        ];
+
+        // ============================================
+        // 工具函数
+        // ============================================
+        
+        // 数字格式化
+        function formatNumber(num) {
+            if (num >= 1000000000) {
+                return (num / 1000000000).toFixed(2) + 'B';
+            }
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(2) + 'M';
+            }
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return Math.floor(num).toString();
+        }
+        
+        // 格式化时间
+        function formatTime(seconds) {
+            if (seconds <= 0) return "0秒";
+            
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            
+            if (minutes > 0) {
+                return `${minutes}分${remainingSeconds}秒`;
+            } else {
+                return `${remainingSeconds}秒`;
+            }
+        }
+        
+        // 显示通知
+        function showNotification(message) {
+            // 创建一个临时通知元素
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(to right, #4CAF50, #2E7D32);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                z-index: 10000;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+                max-width: 300px;
+                word-wrap: break-word;
+            `;
+            
+            notification.innerHTML = `<i class="fas fa-bell" style="margin-right: 10px;"></i> ${message}`;
+            
+            document.body.appendChild(notification);
+            
+            // 3秒后移除通知
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 3000);
+        }
+        
+        // ============================================
+        // 核心游戏函数
+        // ============================================
+        
+        // 初始化游戏
+        function initGame() {
+            showLoadingScreen();
+            
+            // 分阶段加载游戏
+            setTimeout(() => {
+                loadGameState();
+                updateLoadingProgress(30);
+                
+                setTimeout(() => {
+                    updateUI();
+                    setupEventListeners();
+                    updateLoadingProgress(60);
+                    
+                    setTimeout(() => {
+                        renderUpgrades();
+                        renderAutoClickers();
+                        renderSkins();
+                        renderBoosts();
+                        renderSkills();
+                        renderQuests();
+                        renderAchievements();
+                        renderWheel();
+                        renderLeaderboard();
+                        updateLoadingProgress(90);
+                        
+                        setTimeout(() => {
+                            // 启动游戏循环
+                            setInterval(gameLoop, 1000);
+                            
+                            // 自动保存游戏
+                            setInterval(autoSaveGame, GAME_CONFIG.autoSaveInterval);
+                            
+                            // 检查离线收益
+                            checkOfflineEarnings();
+                            
+                            // 检查免费抽奖
+                            checkFreeSpins();
+                            
+                            // 检查增益效果
+                            checkActiveBoosts();
+                            
+                            // 检查是否需要显示新手引导
+                            if (GAME_CONFIG.tutorialEnabled && !gameState.tutorialCompleted) {
+                                setTimeout(() => {
+                                    showTutorial();
+                                }, 1000);
+                            }
+                            
+                            hideLoadingScreen();
+                            updateLoadingProgress(100);
+                        }, 500);
+                    }, 500);
+                }, 500);
+            }, 500);
+        }
+        
+        // 加载游戏状态
+        function loadGameState() {
+            try {
+                const saved = localStorage.getItem('diamondManiacGame');
+                if (saved) {
+                    const savedState = JSON.parse(saved);
+                    
+                    // 版本兼容性检查
+                    if (savedState.gameVersion !== GAME_CONFIG.version) {
+                        console.log('游戏版本不同，进行数据迁移');
+                        migrateGameData(savedState);
+                    }
+                    
+                    // 恢复游戏状态
+                    Object.assign(gameState, savedState);
+                    
+                    // 恢复日期对象
+                    gameState.lastLoginDate = new Date(savedState.lastLoginDate);
+                    gameState.lastSaveTime = savedState.lastSaveTime || Date.now();
+                    
+                    // 确保自动点击器数据正确
+                    if (!gameState.autoClickers || gameState.autoClickers.length === 0) {
+                        gameState.autoClickers = autoClickersData.map(clicker => ({ 
+                            ...clicker, 
+                            currentPrice: clicker.basePrice 
+                        }));
+                    }
+                    
+                    // 检查是否为同一天，如果不是则重置免费抽奖和任务
+                    const today = new Date().toDateString();
+                    if (gameState.lastLoginDate.toDateString() !== today) {
+                        gameState.freeSpins = 3;
+                        resetDailyQuests();
+                        gameState.lastLoginDate = new Date();
+                    }
+                    
+                    // 确保设置存在
+                    if (!gameState.settings) {
+                        gameState.settings = {
+                            sound: true,
+                            animation: true,
+                            offlineEarnings: true,
+                            autoSave: true
+                        };
+                    }
+                    
+                    console.log('游戏状态加载成功');
+                } else {
+                    // 初始游戏状态
+                    initializeNewGame();
+                }
+                
+                // 计算每秒收益
+                calculatePerSecond();
+                
+            } catch (error) {
+                console.error('加载游戏状态时出错:', error);
+                // 如果加载失败，初始化新游戏
+                initializeNewGame();
+            }
+        }
+        
+        // 初始化新游戏
+        function initializeNewGame() {
+            console.log('初始化新游戏');
+            gameState.upgrades = upgradesData.map(upgrade => ({ ...upgrade }));
+            gameState.skins = skinsData.map(skin => ({ ...skin }));
+            gameState.boosts = boostsData.map(boost => ({ ...boost }));
+            gameState.skills = skillsData.map(skill => ({ ...skill }));
+            gameState.quests = questsData.map(quest => ({ ...quest }));
+            gameState.achievements = achievementsData.map(achievement => ({ ...achievement }));
+            gameState.autoClickers = autoClickersData.map(clicker => ({ 
+                ...clicker, 
+                currentPrice: clicker.basePrice 
+            }));
+            gameState.lastLoginDate = new Date();
+            gameState.gameVersion = GAME_CONFIG.version;
+            
+            // 确保默认皮肤已拥有
+            if (gameState.skins[0]) {
+                gameState.skins[0].owned = true;
+                gameState.skins[0].equipped = true;
+            }
+        }
+        
+        // 保存游戏状态
+        function saveGameState() {
+            try {
+                gameState.lastSaveTime = Date.now();
+                localStorage.setItem('diamondManiacGame', JSON.stringify(gameState));
+                
+                // 显示保存提示
+                if (gameState.settings.animation) {
+                    showSaveIndicator();
+                }
+                
+                console.log('游戏状态已保存');
+            } catch (error) {
+                console.error('保存游戏状态时出错:', error);
+            }
+        }
+        
+        function autoSaveGame() {
+            if (gameState.settings.autoSave) {
+                saveGameState();
+            }
+        }
+        
+        // 重置每日任务
+        function resetDailyQuests() {
+            gameState.quests.forEach(quest => {
+                quest.progress = 0;
+                quest.completed = false;
+                quest.claimed = false;
+            });
+            
+            // 更新任务显示
+            renderQuests();
+        }
+        
+        // 计算每秒收益
+        function calculatePerSecond() {
+            let totalPerSecond = 0;
+            let totalAutoClickers = 0;
+            
+            // 自动点击器收益
+            gameState.autoClickers.forEach(clicker => {
+                totalAutoClickers += clicker.owned;
+                totalPerSecond += clicker.owned * clicker.clicksPerSecond * gameState.perClick;
+            });
+            
+            gameState.totalAutoClickers = totalAutoClickers;
+            
+            // 应用增益效果
+            const activeBoost = gameState.boosts.find(boost => boost.active);
+            if (activeBoost && activeBoost.multiplier > 1) {
+                totalPerSecond *= activeBoost.multiplier;
+            }
+            
+            // 钻石雨增益
+            const diamondRainBoost = gameState.boosts.find(boost => boost.id === 5 && boost.active);
+            if (diamondRainBoost) {
+                totalPerSecond += 100;
+            }
+            
+            // 技能效果
+            const timeAccelerationSkill = gameState.skills.find(s => s.id === 2 && s.active);
+            if (timeAccelerationSkill) {
+                totalPerSecond *= 5;
+            }
+            
+            const luckyMomentSkill = gameState.skills.find(s => s.id === 5 && s.active);
+            if (luckyMomentSkill) {
+                totalPerSecond *= 1.5;
+            }
+            
+            gameState.perSecond = Math.floor(totalPerSecond);
+            
+            // 更新统计数据
+            if (gameState.perSecond > gameState.statistics.highestPerSecond) {
+                gameState.statistics.highestPerSecond = gameState.perSecond;
+            }
+        }
+        
+        // 游戏主循环
+        function gameLoop() {
+            // 自动点击器产生钻石
+            if (gameState.perSecond > 0) {
+                const diamondsEarned = gameState.perSecond;
+                gameState.diamonds += diamondsEarned;
+                gameState.statistics.totalDiamondsEarned += diamondsEarned;
+                
+                // 更新玩家经验
+                gameState.playerXP += diamondsEarned / 1000;
+                
+                updateUI();
+            }
+            
+            // 更新游戏时间
+            gameState.totalPlayTime++;
+            
+            // 更新任务进度
+            updateQuestProgress();
+            
+            // 更新成就进度
+            updateAchievementProgress();
+            
+            // 更新技能冷却
+            updateSkillCooldowns();
+            
+            // 更新增益效果时间
+            updateBoostTimers();
+            
+            // 更新玩家等级
+            updatePlayerLevel();
+            
+            // 更新排行榜中的玩家数据
+            updateLeaderboardPlayerData();
+            
+            // 更新统计信息
+            updateStatistics();
+        }
+        
+        // ============================================
+        // UI更新函数
+        // ============================================
+        
+        // 更新UI
+        function updateUI() {
+            const diamondElement = document.getElementById('diamondCount');
+            const perSecondElement = document.getElementById('perSecond');
+            const clickValueElement = document.getElementById('clickValue');
+            const autoClickerElement = document.getElementById('autoClickerCount');
+            const totalClicksElement = document.getElementById('totalClicks');
+            const playerLevelElement = document.getElementById('playerLevel');
+            
+            const oldDiamonds = parseInt(diamondElement.textContent.replace(/[^0-9]/g, '') || 0);
+            const oldPerSecond = parseInt(perSecondElement.textContent.replace(/[^0-9]/g, '') || 0);
+            
+            diamondElement.textContent = formatNumber(gameState.diamonds);
+            perSecondElement.textContent = formatNumber(gameState.perSecond);
+            clickValueElement.textContent = formatNumber(gameState.perClick);
+            autoClickerElement.textContent = gameState.totalAutoClickers;
+            totalClicksElement.textContent = formatNumber(gameState.totalClicks);
+            playerLevelElement.textContent = gameState.playerLevel;
+            
+            // 触发数字动画
+            animateNumber(diamondElement, gameState.diamonds, oldDiamonds);
+            animateNumber(perSecondElement, gameState.perSecond, oldPerSecond);
+            
+            // 更新等级显示
+            document.getElementById('currentLevel').textContent = gameState.playerLevel;
+            document.getElementById('nextLevel').textContent = gameState.playerLevel + 1;
+            
+            // 更新等级进度条
+            const xpForNextLevel = Math.pow(gameState.playerLevel, 2) * 100;
+            const xpProgress = (gameState.playerXP % xpForNextLevel) / xpForNextLevel * 100;
+            document.getElementById('levelFill').style.width = `${xpProgress}%`;
+        }
+        
+        // 更新统计信息
+        function updateStatistics() {
+            // 总游戏时间
+            const totalHours = Math.floor(gameState.totalPlayTime / 3600);
+            const totalMinutes = Math.floor((gameState.totalPlayTime % 3600) / 60);
+            document.getElementById('totalPlayTime').textContent = `${totalHours}小时${totalMinutes}分`;
+            
+            // 点击效率
+            const clicksPerMinute = gameState.totalClicks > 0 ? 
+                Math.floor(gameState.totalClicks / (gameState.totalPlayTime / 60)) : 0;
+            document.getElementById('clickEfficiency').textContent = `${clicksPerMinute}/分钟`;
+            
+            // 升级总数
+            const totalUpgrades = gameState.upgrades.reduce((sum, upgrade) => sum + upgrade.owned, 0) +
+                                gameState.autoClickers.reduce((sum, clicker) => sum + clicker.owned, 0);
+            document.getElementById('totalUpgrades').textContent = totalUpgrades;
+            
+            // 皮肤总数
+            const totalSkins = gameState.skins.filter(skin => skin.owned).length;
+            document.getElementById('totalSkins').textContent = totalSkins;
+            
+            // 更新游戏统计
+            gameState.statistics.totalUpgradesBought = totalUpgrades;
+            gameState.statistics.totalSkinsUnlocked = totalSkins;
+            gameState.statistics.totalAchievements = gameState.achievements.filter(a => a.unlocked).length;
+        }
+        
+        // ============================================
+        // 事件处理函数
+        // ============================================
+        
+        // 处理点击事件
+        function handleClick(e) {
+            if (!gameState.settings.animation) {
+                // 如果动画关闭，直接添加钻石
+                addDiamondsFromClick();
+                return;
+            }
+            
+            const button = e.currentTarget;
+            const rect = button.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // 添加点击特效
+            createClickEffect(button, x, y);
+            
+            // 增加钻石
+            addDiamondsFromClick();
+            
+            // 添加按钮点击动画
+            button.classList.add('pulse');
+            setTimeout(() => {
+                button.classList.remove('pulse');
+            }, 200);
+        }
+        
+        function addDiamondsFromClick() {
+            let diamondsEarned = gameState.perClick;
+            
+            // 幸运宝石效果
+            const luckyUpgrade = gameState.upgrades.find(u => u.id === 4);
+            if (luckyUpgrade && luckyUpgrade.owned > 0 && Math.random() < 0.1) {
+                diamondsEarned *= 10;
+                showNotification('幸运宝石触发！获得10倍收益！');
+            }
+            
+            // 点击风暴效果
+            const stormUpgrade = gameState.upgrades.find(u => u.id === 5);
+            if (stormUpgrade && stormUpgrade.owned > 0 && Math.random() < 0.05) {
+                const stormClicks = Math.floor(Math.random() * 5) + 3;
+                diamondsEarned *= stormClicks;
+                
+                showNotification(`点击风暴！触发${stormClicks}连击！`);
+                
+                // 显示风暴效果
+                if (gameState.settings.animation) {
+                    const button = document.getElementById('clickerButton');
+                    for (let i = 0; i < stormClicks; i++) {
+                        setTimeout(() => {
+                            const x = Math.random() * 200 + 50;
+                            const y = Math.random() * 200 + 50;
+                            createFloatingDiamond(button, x, y, diamondsEarned / stormClicks);
+                        }, i * 50);
+                    }
+                }
+            }
+            
+            // 暴击点击技能
+            const critSkill = gameState.skills.find(s => s.id === 3);
+            if (critSkill && critSkill.active) {
+                diamondsEarned *= 100;
+                critSkill.active = false;
+                showNotification('暴击点击！获得100倍收益！');
+                renderSkills();
+            }
+            
+            // 应用增益效果
+            const activeBoost = gameState.boosts.find(boost => boost.active);
+            if (activeBoost && activeBoost.multiplier > 1) {
+                diamondsEarned *= activeBoost.multiplier;
+            }
+            
+            // 幸运时刻技能
+            const luckyMomentSkill = gameState.skills.find(s => s.id === 5 && s.active);
+            if (luckyMomentSkill) {
+                diamondsEarned *= 1.5;
+            }
+            
+            // 更新游戏状态
+            gameState.diamonds += Math.floor(diamondsEarned);
+            gameState.totalClicks++;
+            gameState.statistics.totalDiamondsEarned += diamondsEarned;
+            gameState.playerXP += diamondsEarned / 500;
+            
+            // 更新最高钻石数量
+            if (gameState.diamonds > gameState.statistics.highestDiamonds) {
+                gameState.statistics.highestDiamonds = gameState.diamonds;
+            }
+            
+            // 更新任务
+            updateQuestProgress();
+            
+            // 更新UI
+            updateUI();
+            renderUpgrades();
+            renderAutoClickers();
+            renderQuests();
+            renderAchievements();
+            
+            // 播放音效
+            if (gameState.settings.sound) {
+                playSoundEffect('click');
+            }
+        }
+        
+        // ============================================
+        // 渲染函数
+        // ============================================
+        
+        // 渲染升级项
+        function renderUpgrades() {
+            const container = document.getElementById('upgradesList');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            gameState.upgrades.forEach(upgrade => {
+                const canAfford = gameState.diamonds >= upgrade.price;
+                const maxed = upgrade.owned >= upgrade.max;
+                
+                const upgradeElement = document.createElement('div');
+                upgradeElement.className = 'upgrade-item';
+                upgradeElement.innerHTML = `
+                    <div class="upgrade-info">
+                        <h4>${upgrade.name} ${upgrade.owned > 0 ? `<span style="color: #4CAF50;">(${upgrade.owned}/${upgrade.max})</span>` : ''}</h4>
+                        <p>${upgrade.description}</p>
+                    </div>
+                    <div>
+                        <div class="upgrade-price">
+                            <i class="fas fa-gem"></i> ${formatNumber(upgrade.price)}
+                        </div>
+                        <button class="buy-btn" ${!canAfford || maxed ? 'disabled' : ''}>
+                            ${maxed ? '已满级' : canAfford ? '购买' : '不足'}
+                        </button>
+                    </div>
+                `;
+                
+                // 添加购买事件
+                if (!maxed) {
+                    const buyBtn = upgradeElement.querySelector('.buy-btn');
+                    buyBtn.addEventListener('click', () => buyUpgrade(upgrade.id));
+                }
+                
+                container.appendChild(upgradeElement);
+            });
+        }
+        
+        // 渲染自动点击器
+        function renderAutoClickers() {
+            const container = document.getElementById('autoClickersList');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            gameState.autoClickers.forEach(clicker => {
+                const canAfford = gameState.diamonds >= clicker.currentPrice;
+                
+                const clickerElement = document.createElement('div');
+                clickerElement.className = 'auto-clicker-item';
+                clickerElement.innerHTML = `
+                    <div class="auto-clicker-info">
+                        <h4>${clicker.name} ${clicker.owned > 0 ? `<span style="color: #4CAF50;">(拥有: ${clicker.owned})</span>` : ''}</h4>
+                        <p>${clicker.description}</p>
+                    </div>
+                    <div>
+                        <div class="auto-clicker-price">
+                            <i class="fas fa-gem"></i> ${formatNumber(clicker.currentPrice)}
+                        </div>
+                        <button class="buy-btn" ${!canAfford ? 'disabled' : ''}>
+                            ${canAfford ? '购买' : '不足'}
+                        </button>
+                    </div>
+                `;
+                
+                const buyBtn = clickerElement.querySelector('.buy-btn');
+                buyBtn.addEventListener('click', () => buyAutoClicker(clicker.id));
+                
+                container.appendChild(clickerElement);
+            });
+        }
+        
+        // 渲染皮肤
+        function renderSkins() {
+            const container = document.getElementById('skinsList');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            gameState.skins.forEach(skin => {
+                const canAfford = gameState.diamonds >= skin.price || skin.owned;
+                const isEquipped = skin.equipped;
+                
+                const skinElement = document.createElement('div');
+                skinElement.className = 'skin-item';
+                skinElement.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div class="skin-preview" style="background: linear-gradient(145deg, ${skin.color1}, ${skin.color2});">
+                            <i class="${skin.icon}" style="color: white;"></i>
+                        </div>
+                        <div class="skin-info">
+                            <h4>${skin.name} ${skin.owned ? '<span class="owned-tag">已拥有</span>' : ''}</h4>
+                            <p>${skin.description}</p>
+                            ${skin.special ? '<p style="color: #FFD700; font-size: 0.8rem;">特别版皮肤</p>' : ''}
+                        </div>
+                    </div>
+                    <div>
+                        ${skin.owned ? 
+                            `<button class="equip-btn ${isEquipped ? 'equipped' : ''}" ${isEquipped ? 'disabled' : ''}>
+                                ${isEquipped ? '已装备' : '装备'}
+                            </button>` : 
+                            `<div class="skin-price">
+                                <i class="fas fa-gem"></i> ${skin.special ? '特殊获取' : formatNumber(skin.price)}
+                            </div>
+                            <button class="buy-btn" ${!canAfford || skin.special ? 'disabled' : ''}>
+                                ${skin.special ? '特殊获取' : (canAfford ? '购买' : '不足')}
+                            </button>`
+                        }
+                    </div>
+                `;
+                
+                if (skin.owned) {
+                    const equipBtn = skinElement.querySelector('.equip-btn');
+                    if (!isEquipped) {
+                        equipBtn.addEventListener('click', () => equipSkin(skin.id));
+                    }
+                } else if (!skin.special) {
+                    const buyBtn = skinElement.querySelector('.buy-btn');
+                    buyBtn.addEventListener('click', () => buySkin(skin.id));
+                }
+                
+                container.appendChild(skinElement);
+            });
+        }
+        
+        // 渲染增益效果
+        function renderBoosts() {
+            const container = document.getElementById('boostsList');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            gameState.boosts.forEach(boost => {
+                const canAfford = gameState.diamonds >= boost.price;
+                const isActive = boost.active;
+                const timeLeft = boost.endTime - Math.floor(Date.now() / 1000);
+                
+                const boostElement = document.createElement('div');
+                boostElement.className = 'boost-item';
+                boostElement.innerHTML = `
+                    <div class="boost-info">
+                        <h4>${boost.name} ${isActive ? `<span style="color: #4CAF50;">(激活中)</span>` : ''}</h4>
+                        <p>${boost.description}</p>
+                        ${isActive && timeLeft > 0 ? `<p class="skill-cooldown">剩余时间: ${formatTime(timeLeft)}</p>` : ''}
+                    </div>
+                    <div>
+                        <div class="boost-price">
+                            <i class="fas fa-gem"></i> ${formatNumber(boost.price)}
+                        </div>
+                        <button class="buy-btn" ${!canAfford || isActive ? 'disabled' : ''}>
+                            ${isActive ? '激活中' : (canAfford ? '激活' : '不足')}
+                        </button>
+                    </div>
+                `;
+                
+                if (!isActive) {
+                    const buyBtn = boostElement.querySelector('.buy-btn');
+                    buyBtn.addEventListener('click', () => activateBoost(boost.id));
+                }
+                
+                container.appendChild(boostElement);
+            });
+        }
+        
+        // 渲染技能
+        function renderSkills() {
+            const container = document.getElementById('skillsList');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            gameState.skills.forEach(skill => {
+                const now = Math.floor(Date.now() / 1000);
+                const cooldownLeft = skill.lastUsed + skill.cooldown - now;
+                const isReady = cooldownLeft <= 0;
+                const isActive = skill.active;
+                
+                const skillElement = document.createElement('div');
+                skillElement.className = 'skill-item';
+                skillElement.innerHTML = `
+                    <div class="skill-info">
+                        <h4>${skill.name} ${isActive ? `<span style="color: #FF5722;">(激活中)</span>` : ''}</h4>
+                        <p>${skill.description}</p>
+                        ${!isReady && !isActive ? `<p class="skill-cooldown">冷却时间: ${formatTime(cooldownLeft)}</p>` : ''}
+                    </div>
+                    <div>
+                        <button class="skill-use-btn" ${!isReady || isActive ? 'disabled' : ''}>
+                            ${isActive ? '激活中' : (isReady ? '使用' : '冷却中')}
+                        </button>
+                    </div>
+                `;
+                
+                if (isReady && !isActive) {
+                    const useBtn = skillElement.querySelector('.skill-use-btn');
+                    useBtn.addEventListener('click', () => useSkill(skill.id));
+                }
+                
+                container.appendChild(skillElement);
+            });
+        }
+        
+        // 渲染任务
+        function renderQuests() {
+            const container = document.getElementById('questsList');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            gameState.quests.forEach(quest => {
+                const progressPercent = (quest.progress / quest.goal) * 100;
+                const canClaim = quest.completed && !quest.claimed;
+                
+                const questElement = document.createElement('div');
+                questElement.className = 'quest-item';
+                questElement.innerHTML = `
+                    <div class="quest-info">
+                        <h4>${quest.name} ${quest.claimed ? `<span style="color: #4CAF50;">(已领取)</span>` : ''}</h4>
+                        <p>${quest.description}</p>
+                        <div class="achievement-progress">
+                            <div class="progress-bar" style="width: ${Math.min(progressPercent, 100)}%"></div>
+                        </div>
+                        <p style="margin-top: 5px; font-size: 0.8rem;">
+                            进度: ${quest.progress}/${quest.goal}
+                        </p>
+                    </div>
+                    <div>
+                        <div class="quest-reward">
+                            <i class="fas fa-gem"></i> ${formatNumber(quest.reward)}
+                        </div>
+                        <button class="quest-claim-btn" ${!canClaim ? 'disabled' : ''}>
+                            ${quest.claimed ? '已领取' : (canClaim ? '领取' : '未完成')}
+                        </button>
+                    </div>
+                `;
+                
+                if (canClaim) {
+                    const claimBtn = questElement.querySelector('.quest-claim-btn');
+                    claimBtn.addEventListener('click', () => claimQuestReward(quest.id));
+                }
+                
+                container.appendChild(questElement);
+            });
+        }
+        
+        // 渲染成就
+        function renderAchievements() {
+            const container = document.getElementById('achievementsList');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            gameState.achievements.forEach(achievement => {
+                const progressPercent = (achievement.progress / achievement.goal) * 100;
+                const isUnlocked = achievement.unlocked;
+                
+                const achievementElement = document.createElement('div');
+                achievementElement.className = `achievement ${isUnlocked ? 'unlocked' : ''}`;
+                achievementElement.innerHTML = `
+                    <div class="achievement-icon">
+                        <i class="fas fa-${isUnlocked ? 'trophy' : 'lock'}"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <h4>${achievement.name} ${isUnlocked ? '<span style="color: #4CAF50;">(已解锁)</span>' : ''}</h4>
+                        <p>${achievement.description}</p>
+                        <div class="achievement-progress">
+                            <div class="progress-bar" style="width: ${Math.min(progressPercent, 100)}%"></div>
+                        </div>
+                        <p style="margin-top: 5px; font-size: 0.8rem;">
+                            进度: ${achievement.progress}/${achievement.goal}
+                            ${isUnlocked ? `<span style="color: #FFD700; margin-left: 10px;">奖励: ${formatNumber(achievement.reward)}💎</span>` : ''}
+                        </p>
+                    </div>
+                `;
+                
+                container.appendChild(achievementElement);
+            });
+        }
+        
+        // 渲染转盘
+        function renderWheel() {
+            const wheel = document.getElementById('wheelCircle');
+            if (!wheel) return;
+            
+            wheel.innerHTML = '';
+            
+            const segmentAngle = 360 / wheelPrizes.length;
+            
+            wheelPrizes.forEach((prize, index) => {
+                const segment = document.createElement('div');
+                segment.className = 'wheel-segment';
+                segment.style.transform = `rotate(${index * segmentAngle}deg)`;
+                segment.style.backgroundColor = prize.color;
+                
+                const text = document.createElement('div');
+                text.style.transform = `rotate(${segmentAngle/2}deg)`;
+                text.style.textAlign = 'center';
+                text.style.width = '100%';
+                text.style.paddingLeft = '20px';
+                text.style.fontSize = '14px';
+                text.textContent = prize.name;
+                
+                segment.appendChild(text);
+                wheel.appendChild(segment);
+            });
+            
+            // 更新转盘按钮状态
+            updateWheelButton();
+        }
+        
+        // 渲染排行榜
+        function renderLeaderboard() {
+            const container = document.getElementById('leaderboardBody');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            // 更新当前玩家数据
+            updateLeaderboardPlayerData();
+            
+            // 按钻石数量排序
+            const sortedLeaderboard = [...leaderboardData].sort((a, b) => b.diamonds - a.diamonds);
+            
+            // 添加当前玩家到排行榜
+            const currentPlayer = {
+                rank: 0,
+                name: gameState.playerName,
+                diamonds: gameState.diamonds,
+                clicks: gameState.totalClicks,
+                level: gameState.playerLevel
+            };
+            
+            sortedLeaderboard.push(currentPlayer);
+            sortedLeaderboard.sort((a, b) => b.diamonds - a.diamonds);
+            
+            // 更新排名
+            sortedLeaderboard.forEach((player, index) => {
+                player.rank = index + 1;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="rank-${player.rank}">${player.rank}</td>
+                    <td>${player.name}</td>
+                    <td>${formatNumber(player.diamonds)}</td>
+                    <td>${formatNumber(player.clicks)}</td>
+                    <td>${player.level}</td>
+                `;
+                
+                container.appendChild(row);
+            });
+        }
+        
+        // ============================================
+        // 游戏逻辑函数
+        // ============================================
+        
+        // 购买升级
+        function buyUpgrade(upgradeId) {
+            const upgrade = gameState.upgrades.find(u => u.id === upgradeId);
+            
+            if (!upgrade || upgrade.owned >= upgrade.max || gameState.diamonds < upgrade.price) {
+                return;
+            }
+            
+            // 扣除钻石
+            gameState.diamonds -= upgrade.price;
+            
+            // 增加升级
+            upgrade.owned++;
+            
+            // 应用升级效果
+            if (upgrade.increase > 0) {
+                gameState.perClick += upgrade.increase;
+            }
+            
+            // 提高价格
+            upgrade.price = Math.floor(upgrade.price * 1.5);
+            
+            // 重新计算每秒收益
+            calculatePerSecond();
+            
+            // 更新UI
+            updateUI();
+            renderUpgrades();
+            renderQuests();
+            renderAchievements();
+            
+            // 播放音效
+            if (gameState.settings.sound) {
+                playSoundEffect('buy');
+            }
+        }
+        
+        // 购买自动点击器
+        function buyAutoClicker(clickerId) {
+            const clicker = gameState.autoClickers.find(c => c.id === clickerId);
+            
+            if (!clicker || gameState.diamonds < clicker.currentPrice) {
+                return;
+            }
+            
+            // 扣除钻石
+            gameState.diamonds -= clicker.currentPrice;
+            
+            // 增加自动点击器
+            clicker.owned++;
+            
+            // 提高价格
+            clicker.currentPrice = Math.floor(clicker.currentPrice * 1.8);
+            
+            // 更新统计数据
+            gameState.statistics.totalUpgradesBought++;
+            
+            // 重新计算每秒收益
+            calculatePerSecond();
+            
+            // 更新UI
+            updateUI();
+            renderAutoClickers();
+            renderQuests();
+            renderAchievements();
+            
+            // 播放音效
+            if (gameState.settings.sound) {
+                playSoundEffect('buy');
+            }
+            
+            // 显示通知
+            showNotification(`购买了${clicker.name}！`);
+        }
+        
+        // 购买皮肤
+        function buySkin(skinId) {
+            const skin = gameState.skins.find(s => s.id === skinId);
+            
+            if (!skin || skin.owned || gameState.diamonds < skin.price) {
+                return;
+            }
+            
+            // 扣除钻石
+            gameState.diamonds -= skin.price;
+            
+            // 获得皮肤
+            skin.owned = true;
+            
+            // 自动装备皮肤
+            equipSkin(skinId);
+            
+            // 更新UI
+            updateUI();
+            renderSkins();
+            renderQuests();
+            renderAchievements();
+            
+            // 播放音效
+            if (gameState.settings.sound) {
+                playSoundEffect('skin');
+            }
+        }
+        
+        // 装备皮肤
+        function equipSkin(skinId) {
+            const skin = gameState.skins.find(s => s.id === skinId);
+            
+            if (!skin || !skin.owned) {
+                return;
+            }
+            
+            // 取消装备其他皮肤
+            gameState.skins.forEach(s => {
+                s.equipped = false;
+            });
+            
+            // 装备新皮肤
+            skin.equipped = true;
+            gameState.selectedSkin = skin.name;
+            
+            // 更新主按钮外观
+            const mainGem = document.getElementById('mainGem');
+            const clickerButton = document.getElementById('clickerButton');
+            
+            if (mainGem && clickerButton) {
+                mainGem.className = skin.icon;
+                clickerButton.style.background = `linear-gradient(145deg, ${skin.color1}, ${skin.color2})`;
+            }
+            
+            // 更新UI
+            renderSkins();
+            
+            // 播放音效
+            if (gameState.settings.sound) {
+                playSoundEffect('equip');
+            }
+        }
+        
+        // 激活增益效果
+        function activateBoost(boostId) {
+            const boost = gameState.boosts.find(b => b.id === boostId);
+            
+            if (!boost || boost.active || gameState.diamonds < boost.price) {
+                return;
+            }
+            
+            // 扣除钻石
+            gameState.diamonds -= boost.price;
+            
+            // 激活增益
+            boost.active = true;
+            boost.endTime = Math.floor(Date.now() / 1000) + boost.duration;
+            
+            // 重新计算每秒收益
+            calculatePerSecond();
+            
+            // 更新UI
+            updateUI();
+            renderBoosts();
+            
+            // 播放音效
+            if (gameState.settings.sound) {
+                playSoundEffect('boost');
+            }
+            
+            // 显示通知
+            showNotification(`已激活${boost.name}增益效果！`);
+        }
+        
+        // 使用技能
+        function useSkill(skillId) {
+            const skill = gameState.skills.find(s => s.id === skillId);
+            const now = Math.floor(Date.now() / 1000);
+            
+            if (!skill || skill.lastUsed + skill.cooldown > now) {
+                return;
+            }
+            
+            // 设置最后使用时间
+            skill.lastUsed = now;
+            
+            // 应用技能效果
+            switch(skill.id) {
+                case 1: // 钻石风暴
+                    gameState.diamonds += 1000;
+                    showNotification('钻石风暴！获得1000钻石');
+                    break;
+                case 2: // 时间加速
+                    skill.active = true;
+                    skill.endTime = now + 30;
+                    
+                    // 5倍自动点击器速度
+                    const originalPerSecond = gameState.perSecond;
+                    gameState.perSecond *= 5;
+                    
+                    // 30秒后恢复
+                    setTimeout(() => {
+                        skill.active = false;
+                        gameState.perSecond = originalPerSecond;
+                        renderSkills();
+                        updateUI();
+                    }, 30000);
+                    
+                    showNotification('时间加速！自动点击器速度提高5倍，持续30秒');
+                    break;
+                case 3: // 暴击点击
+                    skill.active = true;
+                    showNotification('下一次点击将获得100倍收益！');
+                    break;
+                case 4: // 召唤机器人
+                    // 随机获得一个自动点击器
+                    const randomClicker = autoClickersData[Math.floor(Math.random() * 3) + 2]; // 获取2-4级的自动点击器
+                    const clickerIndex = randomClicker.id - 1;
+                    
+                    if (!gameState.autoClickers[clickerIndex]) {
+                        gameState.autoClickers[clickerIndex] = { ...autoClickersData[clickerIndex] };
+                    }
+                    gameState.autoClickers[clickerIndex].owned++;
+                    
+                    calculatePerSecond();
+                    renderAutoClickers();
+                    updateUI();
+                    
+                    showNotification(`召唤机器人！获得一个${randomClicker.name}`);
+                    break;
+                case 5: // 幸运时刻
+                    skill.active = true;
+                    skill.endTime = now + 60;
+                    
+                    // 增加50%收益
+                    gameState.perClick = Math.floor(gameState.perClick * 1.5);
+                    calculatePerSecond();
+                    
+                    // 60秒后恢复
+                    setTimeout(() => {
+                        skill.active = false;
+                        gameState.perClick = Math.floor(gameState.perClick / 1.5);
+                        calculatePerSecond();
+                        renderSkills();
+                        updateUI();
+                    }, 60000);
+                    
+                    showNotification('幸运时刻！所有收益增加50%，持续60秒');
+                    break;
+            }
+            
+            // 更新UI
+            updateUI();
+            renderSkills();
+            
+            // 播放音效
+            if (gameState.settings.sound) {
+                playSoundEffect('skill');
+            }
+        }
+        
+        // 领取任务奖励
+        function claimQuestReward(questId) {
+            const quest = gameState.quests.find(q => q.id === questId);
+            
+            if (!quest || !quest.completed || quest.claimed) {
+                return;
+            }
+            
+            // 标记为已领取
+            quest.claimed = true;
+            
+            // 发放奖励
+            gameState.diamonds += quest.reward;
+            
+            // 更新UI
+            updateUI();
+            renderQuests();
+            renderAchievements();
+            
+            // 显示通知
+            showNotification(`完成任务【${quest.name}】! 获得${quest.reward}钻石`);
+            
+            // 播放音效
+            if (gameState.settings.sound) {
+                playSoundEffect('quest');
+            }
+        }
+        
+        // ============================================
+        // 特殊功能函数
+        // ============================================
+        
+        // 转盘抽奖
+        function spinWheel() {
+            if (gameState.wheelSpinning) return;
+            
+            // 检查是否有免费抽奖
+            let usingFreeSpin = false;
+            if (gameState.freeSpins > 0) {
+                usingFreeSpin = true;
+                gameState.freeSpins--;
+            } else if (gameState.diamonds >= 500) {
+                gameState.diamonds -= 500;
+            } else {
+                showNotification('钻石不足！');
+                return;
+            }
+            
+            gameState.wheelSpinning = true;
+            
+            // 更新转盘任务进度
+            const wheelQuest = gameState.quests.find(q => q.id === 8);
+            if (wheelQuest) {
+                wheelQuest.progress++;
+                updateQuestProgress();
+            }
+            
+            // 随机选择奖品
+            let random = Math.random() * 100;
+            let selectedPrizeIndex = 0;
+            
+            for (let i = 0; i < wheelPrizes.length; i++) {
+                if (random < wheelPrizes[i].probability) {
+                    selectedPrizeIndex = i;
+                    break;
+                }
+                random -= wheelPrizes[i].probability;
+            }
+            
+            const selectedPrize = wheelPrizes[selectedPrizeIndex];
+            const segmentAngle = 360 / wheelPrizes.length;
+            
+            // 计算旋转角度
+            const rotations = 5;
+            const targetAngle = 360 * rotations + (360 - (selectedPrizeIndex * segmentAngle + segmentAngle/2));
+            
+            // 旋转转盘
+            const wheel = document.getElementById('wheelCircle');
+            wheel.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67)';
+            wheel.style.transform = `rotate(${targetAngle}deg)`;
+            
+            // 禁用按钮
+            document.getElementById('wheelSpinBtn').disabled = true;
+            document.getElementById('spinWheel').style.pointerEvents = 'none';
+            
+            setTimeout(() => {
+                gameState.wheelSpinning = false;
+                
+                // 发放奖品
+                let prizeText = '';
+                if (typeof selectedPrize.value === 'number') {
+                    gameState.diamonds += selectedPrize.value;
+                    prizeText = `恭喜获得 ${selectedPrize.name}!`;
+                } else if (selectedPrize.value === 'upgrade') {
+                    const availableUpgrades = gameState.upgrades.filter(u => u.owned < u.max);
+                    if (availableUpgrades.length > 0) {
+                        const randomUpgrade = availableUpgrades[Math.floor(Math.random() * availableUpgrades.length)];
+                        randomUpgrade.owned++;
+                        if (randomUpgrade.increase > 0) {
+                            gameState.perClick += randomUpgrade.increase;
+                        }
+                        prizeText = `恭喜获得免费升级: ${randomUpgrade.name}!`;
+                        calculatePerSecond();
+                        renderUpgrades();
+                    } else {
+                        gameState.diamonds += 5000;
+                        prizeText = `恭喜获得 5000钻石 (替代升级奖励)!`;
+                    }
+                } else if (selectedPrize.value === 'skin') {
+                    const availableSkins = gameState.skins.filter(s => !s.owned && !s.special && s.id !== 1);
+                    if (availableSkins.length > 0) {
+                        const randomSkin = availableSkins[Math.floor(Math.random() * availableSkins.length)];
+                        randomSkin.owned = true;
+                        prizeText = `恭喜获得免费皮肤: ${randomSkin.name}!`;
+                        renderSkins();
+                    } else {
+                        gameState.diamonds += 10000;
+                        prizeText = `恭喜获得 10000钻石 (替代皮肤奖励)!`;
+                    }
+                } else if (selectedPrize.value === 'mystery') {
+                    const mysteryReward = 50000 + Math.floor(Math.random() * 50000);
+                    gameState.diamonds += mysteryReward;
+                    prizeText = `恭喜获得神秘大奖: ${formatNumber(mysteryReward)}钻石!`;
+                }
+                
+                document.getElementById('wheelResult').textContent = prizeText;
+                
+                // 更新UI
+                updateUI();
+                updateWheelButton();
+                
+                // 显示通知
+                showNotification(prizeText);
+                
+                // 播放音效
+                if (gameState.settings.sound) {
+                    playSoundEffect('upgrade');
+                }
+                
+                // 5秒后重置
+                setTimeout(() => {
+                    if (!gameState.wheelSpinning) {
+                        document.getElementById('wheelResult').textContent = 
+                            usingFreeSpin ? 
+                            `免费抽奖剩余: ${gameState.freeSpins}` : 
+                            "花费500钻石抽奖";
+                    }
+                }, 5000);
+                
+                // 重置转盘位置
+                setTimeout(() => {
+                    wheel.style.transition = 'none';
+                    wheel.style.transform = `rotate(${targetAngle % 360}deg)`;
+                    
+                    // 强制重排
+                    void wheel.offsetWidth;
+                    
+                    // 平滑转回0度
+                    wheel.style.transition = 'transform 2s ease-out';
+                    wheel.style.transform = `rotate(0deg)`;
+                    
+                    // 重新启用按钮
+                    setTimeout(() => {
+                        document.getElementById('wheelSpinBtn').disabled = false;
+                        document.getElementById('spinWheel').style.pointerEvents = 'auto';
+                    }, 2000);
+                    
+                }, 4000);
+                
+            }, 4000);
+            
+            updateWheelButton();
+        }
+        
+        // ============================================
+        // 系统功能函数
+        // ============================================
+        
+        // 加载界面控制
+        function showLoadingScreen() {
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        }
+
+        function hideLoadingScreen() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.style.opacity = '0';
+            loadingOverlay.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                loadingOverlay.style.display = 'none';
+            }, 500);
+        }
+
+        function updateLoadingProgress(percent) {
+            const progressElement = document.getElementById('loadingProgress');
+            if (progressElement) {
+                progressElement.textContent = `${percent}%`;
+            }
+        }
+        
+        // 新手引导系统
+        let currentTutorialStep = 1;
+
+        function showTutorial() {
+            document.getElementById('tutorialOverlay').style.display = 'flex';
+        }
+
+        function nextTutorialStep() {
+            const currentStep = document.getElementById(`tutorialStep${currentTutorialStep}`);
+            const nextStep = document.getElementById(`tutorialStep${currentTutorialStep + 1}`);
+            
+            if (currentStep && nextStep) {
+                currentStep.classList.remove('active');
+                nextStep.classList.add('active');
+                currentTutorialStep++;
+            }
+        }
+
+        function prevTutorialStep() {
+            if (currentTutorialStep > 1) {
+                const currentStep = document.getElementById(`tutorialStep${currentTutorialStep}`);
+                const prevStep = document.getElementById(`tutorialStep${currentTutorialStep - 1}`);
+                
+                if (currentStep && prevStep) {
+                    currentStep.classList.remove('active');
+                    prevStep.classList.add('active');
+                    currentTutorialStep--;
+                }
+            }
+        }
+
+        function completeTutorial() {
+            gameState.tutorialCompleted = true;
+            document.getElementById('tutorialOverlay').style.display = 'none';
+            saveGameState();
+            
+            // 给予新手奖励
+            gameState.diamonds += 1000;
+            updateUI();
+            showNotification('新手教程完成！获得1000钻石奖励！');
+        }
+        
+        // 离线收益系统
+        function checkOfflineEarnings() {
+            if (!gameState.settings.offlineEarnings) return;
+            
+            const lastSaveTime = gameState.lastSaveTime;
+            const currentTime = Date.now();
+            const offlineTime = Math.floor((currentTime - lastSaveTime) / 1000); // 转换为秒
+            
+            if (offlineTime > 60) { // 离线超过1分钟
+                const hours = Math.floor(offlineTime / 3600);
+                const minutes = Math.floor((offlineTime % 3600) / 60);
+                
+                // 限制最大离线时间
+                const maxOfflineSeconds = GAME_CONFIG.maxOfflineHours * 3600;
+                const effectiveOfflineTime = Math.min(offlineTime, maxOfflineSeconds);
+                
+                // 计算离线收益
+                const offlineEarnings = Math.floor(gameState.perSecond * effectiveOfflineTime * GAME_CONFIG.offlineMultiplier);
+                
+                if (offlineEarnings > 0) {
+                    gameState.offlineEarnings = {
+                        time: offlineTime,
+                        hours: hours,
+                        minutes: minutes,
+                        earnings: offlineEarnings
+                    };
+                    
+                    showOfflineEarnings(offlineTime, offlineEarnings);
+                }
+            }
+        }
+
+        function showOfflineEarnings(offlineTime, earnings) {
+            const offlineElement = document.getElementById('offlineEarnings');
+            const timeElement = document.getElementById('offlineTime');
+            const rewardElement = document.getElementById('offlineReward');
+            
+            const hours = Math.floor(offlineTime / 3600);
+            const minutes = Math.floor((offlineTime % 3600) / 60);
+            
+            timeElement.textContent = `离线时间: ${hours}小时${minutes}分钟`;
+            rewardElement.textContent = `获得钻石: ${formatNumber(earnings)}`;
+            
+            offlineElement.style.display = 'block';
+        }
+
+        function claimOfflineEarnings() {
+            if (gameState.offlineEarnings) {
+                const earnings = gameState.offlineEarnings.earnings;
+                gameState.diamonds += earnings;
+                gameState.statistics.totalDiamondsEarned += earnings;
+                
+                // 更新UI
+                updateUI();
+                
+                // 隐藏离线收益提示
+                document.getElementById('offlineEarnings').style.display = 'none';
+                
+                // 显示通知
+                showNotification(`领取离线收益: ${formatNumber(earnings)}钻石！`);
+                
+                // 清除离线收益数据
+                gameState.offlineEarnings = null;
+                
+                // 播放音效
+                if (gameState.settings.sound) {
+                    playSoundEffect('recharge');
+                }
+            }
+        }
+        
+        // 设置系统
+        function setupSettings() {
+            // 音效开关
+            const soundToggle = document.getElementById('soundToggle');
+            if (soundToggle) {
+                soundToggle.checked = gameState.settings.sound;
+                soundToggle.addEventListener('change', (e) => {
+                    gameState.settings.sound = e.target.checked;
+                    saveGameState();
+                });
+            }
+            
+            // 动画开关
+            const animationToggle = document.getElementById('animationToggle');
+            if (animationToggle) {
+                animationToggle.checked = gameState.settings.animation;
+                animationToggle.addEventListener('change', (e) => {
+                    gameState.settings.animation = e.target.checked;
+                    saveGameState();
+                });
+            }
+            
+            // 离线收益开关
+            const offlineToggle = document.getElementById('offlineEarningsToggle');
+            if (offlineToggle) {
+                offlineToggle.checked = gameState.settings.offlineEarnings;
+                offlineToggle.addEventListener('change', (e) => {
+                    gameState.settings.offlineEarnings = e.target.checked;
+                    saveGameState();
+                });
+            }
+            
+            // 自动保存开关
+            const autoSaveToggle = document.getElementById('autoSaveToggle');
+            if (autoSaveToggle) {
+                autoSaveToggle.checked = gameState.settings.autoSave;
+                autoSaveToggle.addEventListener('change', (e) => {
+                    gameState.settings.autoSave = e.target.checked;
+                    saveGameState();
+                });
+            }
+        }
+        
+        // 游戏存档管理
+        function exportSave() {
+            const saveData = JSON.stringify(gameState);
+            const blob = new Blob([saveData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `钻石狂热者存档_${new Date().toLocaleDateString()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification('存档已导出！');
+        }
+
+        function importSave() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = (event) => {
+                    try {
+                        const saveData = JSON.parse(event.target.result);
+                        
+                        // 验证存档数据
+                        if (saveData.diamonds !== undefined && saveData.upgrades) {
+                            if (confirm('确定要加载这个存档吗？当前进度将会丢失。')) {
+                                localStorage.setItem('diamondManiacGame', JSON.stringify(saveData));
+                                location.reload();
+                            }
+                        } else {
+                            alert('存档文件无效！');
+                        }
+                    } catch (error) {
+                        alert('读取存档文件失败！');
+                    }
+                };
+                
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
+
+        function resetGame() {
+            if (confirm('确定要重置游戏吗？所有进度将会丢失！')) {
+                localStorage.removeItem('diamondManiacGame');
+                location.reload();
+            }
+        }
+        
+        // 充值系统
+        function openRechargeModal() {
+            const modal = document.getElementById('rechargeModal');
+            const amountText = document.getElementById('rechargeAmountText');
+            const paymentStatus = document.getElementById('paymentStatus');
+            const { amount, price } = gameState.selectedRechargeOption;
+            
+            amountText.textContent = `充值金额：￥${price}，获得${formatNumber(amount)}钻石`;
+            paymentStatus.className = 'payment-status';
+            paymentStatus.textContent = '';
+            paymentStatus.style.display = 'none';
+            
+            modal.style.display = 'flex';
+            
+            // 创建待处理支付
+            gameState.pendingPayment = {
+                amount: amount,
+                price: price,
+                timestamp: Date.now(),
+                status: 'pending'
+            };
+        }
+
+        function closeRechargeModal() {
+            document.getElementById('rechargeModal').style.display = 'none';
+            gameState.pendingPayment = null;
+        }
+
+        function checkPaymentStatus() {
+            if (!gameState.pendingPayment) return;
+            
+            const paymentStatus = document.getElementById('paymentStatus');
+            
+            // 模拟支付检查 - 在实际应用中，这里应该连接后端服务器验证支付
+            // 这里我们模拟一个随机结果：70%几率支付成功，20%几率支付中，10%几率支付失败
+            const random = Math.random();
+            
+            if (random < 0.7) {
+                // 支付成功
+                paymentStatus.className = 'payment-status success';
+                paymentStatus.innerHTML = '<i class="fas fa-check-circle"></i> 支付成功！钻石已到账';
+                paymentStatus.style.display = 'block';
+                
+                // 发放钻石
+                confirmRecharge();
+                
+                // 3秒后关闭模态框
+                setTimeout(() => {
+                    closeRechargeModal();
+                }, 3000);
+            } else if (random < 0.9) {
+                // 支付中
+                paymentStatus.className = 'payment-status pending';
+                paymentStatus.innerHTML = '<i class="fas fa-clock"></i> 支付处理中，请稍后再试';
+                paymentStatus.style.display = 'block';
+            } else {
+                // 支付失败
+                paymentStatus.className = 'payment-status failed';
+                paymentStatus.innerHTML = '<i class="fas fa-times-circle"></i> 支付失败，请重试或联系客服';
+                paymentStatus.style.display = 'block';
+            }
+        }
+
+        function confirmRecharge() {
+            if (!gameState.pendingPayment) return;
+            
+            const { amount } = gameState.pendingPayment;
+            
+            // 增加钻石
+            gameState.diamonds += amount;
+            
+            // 更新充值相关成就
+            const rechargeAchievement1 = gameState.achievements.find(a => a.id === 17); // VIP玩家
+            if (rechargeAchievement1) {
+                rechargeAchievement1.progress = 1;
+            }
+            
+            const rechargeAchievement2 = gameState.achievements.find(a => a.id === 18); // 大客户
+            if (rechargeAchievement2) {
+                // 这里简化处理，实际应该累计充值金额
+                rechargeAchievement2.progress += gameState.pendingPayment.price;
+            }
+            
+            // 更新UI
+            updateUI();
+            renderAchievements();
+            
+            // 显示充值成功消息
+            showNotification(`充值成功! 获得${formatNumber(amount)}钻石`);
+            
+            // 播放音效
+            if (gameState.settings.sound) {
+                playSoundEffect('recharge');
+            }
+        }
+        
+        // ============================================
+        // 辅助功能函数
+        // ============================================
+        
+        // 创建浮动钻石效果
+        function createFloatingDiamond(button, x, y, amount) {
+            if (!gameState.settings.animation) return;
+            
+            const diamond = document.createElement('div');
+            diamond.className = 'floating-diamond';
+            diamond.textContent = `+${formatNumber(amount)}`;
+            diamond.style.left = `${x}px`;
+            diamond.style.top = `${y}px`;
+            
+            button.appendChild(diamond);
+            
+            // 动画结束后移除元素
+            setTimeout(() => {
+                diamond.remove();
+            }, 1000);
+        }
+        
+        // 创建点击特效
+        function createClickEffect(button, x, y) {
+            if (!gameState.settings.animation) return;
+            
+            // 创建涟漪效果
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            button.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+            
+            // 创建浮动钻石
+            createFloatingDiamond(button, x, y, gameState.perClick);
+        }
+        
+        // 数字动画效果
+        function animateNumber(element, newValue, oldValue) {
+            if (!gameState.settings.animation || newValue === oldValue) return;
+            
+            element.classList.add('stat-increasing');
+            setTimeout(() => {
+                element.classList.remove('stat-increasing');
+            }, 300);
+        }
+        
+        // 显示保存提示
+        function showSaveIndicator() {
+            const indicator = document.getElementById('saveIndicator');
+            indicator.style.display = 'block';
+            
+            setTimeout(() => {
+                indicator.style.display = 'none';
+            }, 2000);
+        }
+        
+        // 音效系统
+        function playSoundEffect(type) {
+            if (!gameState.settings.sound) return;
+            
+            try {
+                // 创建简单的音效
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                switch(type) {
+                    case 'click':
+                        playClickSound(audioContext);
+                        break;
+                    case 'buy':
+                        playBuySound(audioContext);
+                        break;
+                    case 'upgrade':
+                        playUpgradeSound(audioContext);
+                        break;
+                    case 'achievement':
+                        playAchievementSound(audioContext);
+                        break;
+                    default:
+                        // 默认音效
+                        playDefaultSound(audioContext);
+                }
+            } catch (error) {
+                console.log('音效播放失败:', error);
+            }
+        }
+
+        function playClickSound(audioContext) {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
+
+        function playBuySound(audioContext) {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 1200;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+        }
+        
+        // ============================================
+        // 更新函数
+        // ============================================
+        
+        // 更新任务进度
+        function updateQuestProgress() {
+            let changed = false;
+            
+            // 更新点击任务
+            gameState.quests[0].progress = gameState.totalClicks; // 首次点击
+            gameState.quests[6].progress = gameState.totalClicks; // 点击狂人
+            
+            // 更新钻石任务
+            gameState.quests[1].progress = gameState.diamonds; // 钻石收集者
+            gameState.quests[5].progress = gameState.diamonds; // 百万富翁
+            
+            // 更新升级任务
+            gameState.quests[2].progress = gameState.upgrades.reduce((sum, upgrade) => sum + upgrade.owned, 0);
+            
+            // 更新自动点击器任务
+            gameState.quests[3].progress = gameState.autoClickers.reduce((sum, clicker) => sum + clicker.owned, 0);
+            
+            // 更新皮肤任务
+            gameState.quests[4].progress = gameState.skins.filter(skin => skin.owned && skin.id !== 1).length;
+            
+            // 转盘任务在spinWheel函数中更新
+            
+            // 检查任务完成状态
+            gameState.quests.forEach(quest => {
+                if (!quest.completed && quest.progress >= quest.goal) {
+                    quest.completed = true;
+                    changed = true;
+                }
+            });
+            
+            if (changed) {
+                renderQuests();
+            }
+        }
+        
+        // 更新成就进度
+        function updateAchievementProgress() {
+            let changed = false;
+            
+            // 更新点击相关成就
+            gameState.achievements[0].progress = gameState.totalClicks; // 初次点击
+            gameState.achievements[1].progress = gameState.totalClicks; // 点击新手
+            gameState.achievements[2].progress = gameState.totalClicks; // 点击达人
+            gameState.achievements[3].progress = gameState.totalClicks; // 点击大师
+            
+            // 更新钻石相关成就
+            gameState.achievements[4].progress = gameState.diamonds; // 钻石收藏家
+            gameState.achievements[5].progress = gameState.diamonds; // 钻石大亨
+            gameState.achievements[6].progress = gameState.diamonds; // 钻石之王
+            
+            // 更新自动点击器成就
+            gameState.achievements[7].progress = gameState.autoClickers.reduce((sum, clicker) => sum + clicker.owned, 0);
+            gameState.achievements[8].progress = gameState.achievements[7].progress; // 自动化专家
+            
+            // 更新皮肤成就
+            gameState.achievements[9].progress = gameState.skins.filter(skin => skin.owned && skin.id !== 1).length; // 皮肤收藏家
+            gameState.achievements[10].progress = gameState.achievements[9].progress; // 皮肤大师
+            
+            // 更新升级成就
+            gameState.achievements[11].progress = gameState.upgrades.reduce((sum, upgrade) => sum + upgrade.owned, 0); // 升级大师
+            gameState.achievements[12].progress = gameState.achievements[11].progress; // 升级宗师
+            
+            // 转盘成就在spinWheel函数中更新
+            
+            // 技能成就（需要跟踪技能使用情况，这里简化处理）
+            gameState.achievements[14].progress = gameState.skills.filter(skill => skill.lastUsed > 0).length; // 技能达人
+            
+            // 任务成就
+            gameState.achievements[15].progress = gameState.quests.filter(quest => quest.claimed).length; // 任务完成者
+            
+            // 充值成就
+            // 这些成就在confirmRecharge函数中更新
+            
+            // 等级成就
+            gameState.achievements[18].progress = gameState.playerLevel; // 游戏之神
+            
+            // 皮肤收集成就
+            gameState.achievements[19].progress = gameState.skins.filter(skin => skin.owned).length; // 终极收藏家
+            
+            // 检查并解锁成就
+            gameState.achievements.forEach(achievement => {
+                if (!achievement.unlocked && achievement.progress >= achievement.goal) {
+                    achievement.unlocked = true;
+                    gameState.diamonds += achievement.reward;
+                    changed = true;
+                    
+                    // 显示成就解锁通知
+                    showNotification(`成就解锁: ${achievement.name}! 获得${achievement.reward}钻石奖励`);
+                }
+            });
+            
+            if (changed) {
+                updateUI();
+                renderAchievements();
+            }
+        }
+        
+        // 更新技能冷却
+        function updateSkillCooldowns() {
+            renderSkills();
+        }
+        
+        // 检查激活的增益效果
+        function checkActiveBoosts() {
+            const now = Math.floor(Date.now() / 1000);
+            let changed = false;
+            
+            gameState.boosts.forEach(boost => {
+                if (boost.active && boost.endTime <= now) {
+                    boost.active = false;
+                    changed = true;
+                    
+                    // 显示通知
+                    showNotification(`${boost.name}增益效果已结束`);
+                }
+            });
+            
+            if (changed) {
+                calculatePerSecond();
+                renderBoosts();
+            }
+        }
+        
+        // 更新增益效果计时器
+        function updateBoostTimers() {
+            const now = Math.floor(Date.now() / 1000);
+            let changed = false;
+            
+            gameState.boosts.forEach(boost => {
+                if (boost.active && boost.endTime <= now) {
+                    boost.active = false;
+                    changed = true;
+                }
+            });
+            
+            if (changed) {
+                calculatePerSecond();
+                renderBoosts();
+            }
+        }
+        
+        // 更新玩家等级
+        function updatePlayerLevel() {
+            const newLevel = Math.floor(Math.sqrt(gameState.playerXP / 100)) + 1;
+            if (newLevel > gameState.playerLevel) {
+                const levelUp = newLevel - gameState.playerLevel;
+                gameState.playerLevel = newLevel;
+                
+                // 每升一级获得钻石奖励
+                const reward = levelUp * 1000;
+                gameState.diamonds += reward;
+                
+                showNotification(`恭喜升级到 ${gameState.playerLevel} 级! 获得${reward}钻石奖励`);
+                updateUI();
+                renderAchievements();
+            }
+        }
+        
+        // 更新转盘按钮状态
+        function updateWheelButton() {
+            const spinBtn = document.getElementById('wheelSpinBtn');
+            if (!spinBtn) return;
+            
+            const canSpinFree = gameState.freeSpins > 0;
+            const canSpinPaid = gameState.diamonds >= 500;
+            
+            if (canSpinFree) {
+                spinBtn.disabled = false;
+                spinBtn.textContent = `免费抽奖剩余: ${gameState.freeSpins}`;
+            } else if (canSpinPaid) {
+                spinBtn.disabled = false;
+                spinBtn.textContent = "花费500钻石抽奖";
+            } else {
+                spinBtn.disabled = true;
+                spinBtn.textContent = "钻石不足 (需要500)";
+            }
+        }
+        
+        // 检查免费抽奖
+        function checkFreeSpins() {
+            // 每天重置免费抽奖次数（已在loadGameState中处理）
+            updateWheelButton();
+        }
+        
+        // 更新排行榜中的玩家数据
+        function updateLeaderboardPlayerData() {
+            // 在渲染排行榜时处理
+        }
+        
+        // 数据迁移
+        function migrateGameData(savedState) {
+            // 从旧版本迁移数据
+            if (!savedState.gameVersion) {
+                // 迁移自动点击器数据
+                if (savedState.autoClickers === 0 || typeof savedState.autoClickers === 'number') {
+                    savedState.autoClickers = autoClickersData.map(clicker => ({
+                        ...clicker,
+                        currentPrice: clicker.basePrice,
+                        owned: 0
+                    }));
+                }
+                
+                // 迁移设置
+                if (!savedState.settings) {
+                    savedState.settings = {
+                        sound: true,
+                        animation: true,
+                        offlineEarnings: true,
+                        autoSave: true
+                    };
+                }
+                
+                // 迁移统计
+                if (!savedState.statistics) {
+                    savedState.statistics = {
+                        highestDiamonds: savedState.diamonds || 0,
+                        highestPerSecond: 0,
+                        totalDiamondsEarned: savedState.diamonds || 0,
+                        totalUpgradesBought: 0,
+                        totalSkinsUnlocked: 1,
+                        totalAchievements: 0
+                    };
+                }
+                
+                savedState.gameVersion = GAME_CONFIG.version;
+            }
+        }
+        
+        // ============================================
+        // 事件监听器设置
+        // ============================================
+        
+        function setupEventListeners() {
+            // 点击按钮
+            document.getElementById('clickerButton').addEventListener('click', handleClick);
+            
+            // 标签页切换
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // 更新活跃标签
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 显示对应内容
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // 充值选项选择
+            document.querySelectorAll('.recharge-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.recharge-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    
+                    const amount = parseInt(this.getAttribute('data-amount'));
+                    const price = parseInt(this.getAttribute('data-price'));
+                    gameState.selectedRechargeOption = { amount, price };
+                });
+            });
+            
+            // 充值按钮
+            document.getElementById('rechargeBtn').addEventListener('click', openRechargeModal);
+            
+            // 充值模态框按钮
+            document.getElementById('checkPayment').addEventListener('click', checkPaymentStatus);
+            document.getElementById('cancelRecharge').addEventListener('click', closeRechargeModal);
+            
+            // 转盘抽奖
+            document.getElementById('spinWheel').addEventListener('click', spinWheel);
+            document.getElementById('wheelSpinBtn').addEventListener('click', spinWheel);
+            
+            // 关闭模态框（点击背景）
+            document.getElementById('rechargeModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeRechargeModal();
+                }
+            });
+            
+            // 新的事件监听器
+            setupSettings();
+            
+            // 页面离开时保存
+            window.addEventListener('beforeunload', () => {
+                if (gameState.settings.autoSave) {
+                    saveGameState();
+                }
+            });
+            
+            // 页面可见性变化
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    // 页面隐藏，保存游戏
+                    saveGameState();
+                } else {
+                    // 页面恢复，检查离线收益
+                    checkOfflineEarnings();
+                }
+            });
+        }
+        
+        // ============================================
+        // 初始化游戏
+        // ============================================
+        
+        // 确保所有DOM元素都加载完成
+        document.addEventListener('DOMContentLoaded', () => {
+            // 检查浏览器兼容性
+            if (!localStorage) {
+                alert('您的浏览器不支持本地存储，游戏进度将无法保存。');
+            }
+            
+            // 开始初始化游戏
+            setTimeout(initGame, 100);
+        });
+    </script>
+</body>
+</html>
